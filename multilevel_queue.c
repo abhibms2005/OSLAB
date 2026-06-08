@@ -27,18 +27,18 @@ int main() {
 
     int time=0;
 
-    for(int q=0;q<=1;q++) {
-        for(int i=0;i<n;i++) {
-            if(p[i].type==q) {
-
-                if(time<p[i].at)
+    for(int q=0; q<=1; q++ ){
+        for(int i=0; i<n; i++){
+            if (p[i].type==q){
+                if(time<p[i].at){
                     time=p[i].at;
+                }
 
-                p[i].wt=time-p[i].at;
-                p[i].ct=time+p[i].bt;
-                p[i].tat=p[i].ct-p[i].at;
+                    p[i].ct=time+p[i].bt;
+                    p[i].wt=time-p[i].at;
+                    p[i].tat=p[i].ct-p[i].at;
 
-                time=p[i].ct;
+                    time=p[i].ct;
             }
         }
     }
@@ -47,8 +47,7 @@ int main() {
 
     for(int i=0;i<n;i++) {
         printf("%d\t%d\t%d\t%d\t%d\t%d\t%d\n",
-               p[i].id,p[i].type,p[i].at,p[i].bt,
-               p[i].ct,p[i].wt,p[i].tat);
+               p[i].id,p[i].type,p[i].at,p[i].bt,p[i].ct,p[i].wt,p[i].tat);
     }
 
     return 0;

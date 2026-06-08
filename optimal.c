@@ -1,83 +1,94 @@
 #include <stdio.h>
 
+#define MAX 50
+
+int search(int frames[], int capacity, int key)
+{
+    for(int i = 0; i < capacity; i++)
+    {
+        if(frames[i] == key)
+            return 1;
+    }
+
+    return 0;
+}
+
 int main()
 {
-    int n,frames;
+    int pages[MAX], frames[MAX];
+    int n, capacity;
+    int faults = 0;
 
     printf("Enter number of pages: ");
-    scanf("%d",&n);
+    scanf("%d", &n);
 
-    int pages[n];
-
-    for(int i=0;i<n;i++)
-        scanf("%d",&pages[i]);
+    printf("Enter page reference string:\n");
+    for(int i = 0; i < n; i++)
+        scanf("%d", &pages[i]);
 
     printf("Enter number of frames: ");
-    scanf("%d",&frames);
+    scanf("%d", &capacity);
 
-    int frame[frames];
+    for(int i = 0; i < capacity; i++)
+        frames[i] = -1;
 
-    for(int i=0;i<frames;i++)
-        frame[i]=-1;
+    printf("\nOptimal Page Replacement:\n");
 
-    int faults=0;
-
-    for(int i=0;i<n;i++)
+    for(int i = 0; i < n; i++)
     {
-        int found=0;
-
-        for(int j=0;j<frames;j++)
+        if(!search(frames, capacity, pages[i]))
         {
-            if(frame[j]==pages[i])
-            {
-                found=1;
-                break;
-            }
-        }
+            int pos = -1;
 
-        if(!found)
-        {
-            int pos=-1;
-
-            for(int j=0;j<frames;j++)
+            for(int j = 0; j < capacity; j++)
             {
-                if(frame[j]==-1)
+                if(frames[j] == -1)
                 {
-                    pos=j;
+                    pos = j;
                     break;
                 }
             }
 
-            if(pos==-1)
+            if(pos == -1)
             {
-                int farthest=-1,index=-1;
+                int farthest = -1;
 
-                for(int j=0;j<frames;j++)
+                for(int j = 0; j < capacity; j++)
                 {
                     int k;
 
-                    for(k=i+1;k<n;k++)
+                    for(k = i + 1; k < n; k++)
                     {
-                        if(frame[j]==pages[k])
+                        if(frames[j] == pages[k])
                             break;
                     }
 
-                    if(k>farthest)
+                    if(k > farthest)
                     {
-                        farthest=k;
-                        index=j;
+                        farthest = k;
+                        pos = j;
                     }
                 }
-
-                pos=index;
             }
 
-            frame[pos]=pages[i];
+            frames[pos] = pages[i];
             faults++;
         }
+
+        printf("Page %d -> ", pages[i]);
+
+        for(int j = 0; j < capacity; j++)
+        {
+            if(frames[j] != -1)
+                printf("%d ", frames[j]);
+            else
+                printf("- ");
+        }
+
+        printf("\n");
     }
 
-    printf("Page Faults = %d\n",faults);
+    printf("\nTotal Page Faults = %d\n", faults);
 
     return 0;
 }

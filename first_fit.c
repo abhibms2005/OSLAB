@@ -44,12 +44,7 @@ int main()
 
     for(int i=0;i<n;i++)
     {
-        printf("%d\t",i+1);
-
-        if(allocation[i]!=-1)
-            printf("%d\n",allocation[i]+1);
-        else
-            printf("Not Allocated\n");
+        printf("%d\t", allocation[i]);
     }
 
     return 0;

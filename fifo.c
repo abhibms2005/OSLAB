@@ -1,49 +1,51 @@
-#include <stdio.h>
+#include<stdio.h>
 
-int main()
-{
-    int n,frames;
-
-    printf("Enter number of pages: ");
-    scanf("%d",&n);
-
-    int pages[n];
-
-    printf("Enter page reference string:\n");
-    for(int i=0;i<n;i++)
-        scanf("%d",&pages[i]);
-
-    printf("Enter number of frames: ");
-    scanf("%d",&frames);
-
-    int frame[frames];
-    int count=0,faults=0,front=0;
-
-    for(int i=0;i<frames;i++)
-        frame[i]=-1;
-
-    for(int i=0;i<n;i++)
-    {
-        int found=0;
-
-        for(int j=0;j<frames;j++)
-        {
-            if(frame[j]==pages[i])
-            {
-                found=1;
-                break;
-            }
-        }
-
-        if(!found)
-        {
-            frame[front]=pages[i];
-            front=(front+1)%frames;
-            faults++;
+int search(int frames[], int cap, int key){
+    for(int i=0; i<cap; i++){
+        if(frames[i] == key){
+            return 1;
         }
     }
-
-    printf("Page Faults = %d\n",faults);
-
     return 0;
+}
+
+void printframes(int frames[], int cap){
+    for(int i=0; i<cap; i++){
+        printf("%d\t", frames[i]);
+    }
+    printf("\n");
+}
+
+int main(){
+
+    int pages[100],capacity,n; //string lngth=no. of pages(n)
+    int frames[100];
+
+    printf("ENter number of pages: ");
+    scanf("%d", &n);
+    printf("ENter no of frames: ");
+    scanf("%d", &capacity);
+    printf("Enter string: ");
+    for (int i=0; i<n; i++){
+        scanf("%d", &pages[i]);
+    }
+    
+    for(int i=0; i<capacity; i++){
+        frames[i] = -1;
+    }
+
+    int faults = 0;
+    int front = 0;
+
+    for(int i=0; i<n; i++){
+        if(!search(frames, capacity, pages[i])){
+            frames[front] = pages[i];
+            front = (front+1)%capacity;
+            faults++;
+        }
+        printframes(frames, capacity);
+    }
+
+    printf("Total no of faults = %d", faults);
+
 }

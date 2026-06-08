@@ -11,7 +11,7 @@ int in = 0, out = 0;
 sem_t empty, full;
 pthread_mutex_t mutex;
 
-void *producer(void *arg)
+void *producer(void *num)
 {
     int item = 0;
 

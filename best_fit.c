@@ -3,7 +3,7 @@
 int main()
 {
     int m,n;
-
+    
     printf("Enter number of memory blocks: ");
     scanf("%d",&m);
 

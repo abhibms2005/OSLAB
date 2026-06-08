@@ -1,62 +1,80 @@
 #include <stdio.h>
 
+#define MAX 50
+
+int search(int frames[], int capacity, int key)
+{
+    for(int i = 0; i < capacity; i++)
+    {
+        if(frames[i] == key)
+            return i;
+    }
+
+    return -1;
+}
+
 int main()
 {
-    int n,frames;
+    int pages[MAX], frames[MAX], time[MAX];
+    int n, capacity;
+    int faults = 0;
+    int counter = 0;
 
     printf("Enter number of pages: ");
-    scanf("%d",&n);
+    scanf("%d", &n);
 
-    int pages[n];
-
-    for(int i=0;i<n;i++)
-        scanf("%d",&pages[i]);
+    printf("Enter page reference string:\n");
+    for(int i = 0; i < n; i++)
+        scanf("%d", &pages[i]);
 
     printf("Enter number of frames: ");
-    scanf("%d",&frames);
+    scanf("%d", &capacity);
 
-    int frame[frames];
-    int recent[frames];
-
-    for(int i=0;i<frames;i++)
+    for(int i = 0; i < capacity; i++)
     {
-        frame[i]=-1;
-        recent[i]=0;
+        frames[i] = -1;
+        time[i] = 0;
     }
 
-    int faults=0;
+    printf("\nLRU Page Replacement:\n");
 
-    for(int i=0;i<n;i++)
+    for(int i = 0; i < n; i++)
     {
-        int found=0;
+        int pos = search(frames, capacity, pages[i]);
 
-        for(int j=0;j<frames;j++)
+        if(pos == -1)
         {
-            if(frame[j]==pages[i])
-            {
-                recent[j]=i;
-                found=1;
-                break;
-            }
-        }
+            int least = 0;
 
-        if(!found)
-        {
-            int lru=0;
-
-            for(int j=1;j<frames;j++)
+            for(int j = 1; j < capacity; j++)
             {
-                if(recent[j]<recent[lru])
-                    lru=j;
+                if(time[j] < time[least])
+                    least = j;
             }
 
-            frame[lru]=pages[i];
-            recent[lru]=i;
+            frames[least] = pages[i];
+            time[least] = ++counter;
             faults++;
         }
+        else
+        {
+            time[pos] = ++counter;
+        }
+
+        printf("Page %d -> ", pages[i]);
+
+        for(int j = 0; j < capacity; j++)
+        {
+            if(frames[j] != -1)
+                printf("%d ", frames[j]);
+            else
+                printf("-");
+        }
+
+        printf("\n");
     }
 
-    printf("Page Faults = %d\n",faults);
+    printf("\nTotal Page Faults = %d\n", faults);
 
     return 0;
 }

@@ -25,15 +25,15 @@ int main()
         scanf("%d",&p[i].period);
     }
 
-    for(int i=0;i<n-1;i++)
+    for(int i=0;i<n;i++)
     {
-        for(int j=0;j<n-1-i;j++)
+        for(int j=i+1;j<n;j++)
         {
-            if(p[j].period > p[j+1].period)
+            if(p[i].period > p[j].period)
             {
-                struct Process temp=p[j];
-                p[j]=p[j+1];
-                p[j+1]=temp;
+                struct Process temp=p[i];
+                p[i]=p[j];
+                p[j]=temp;
             }
         }
     }
@@ -53,8 +53,7 @@ int main()
     for(int i=0;i<n;i++)
     {
         printf("%d\t%d\t%d\t%d\t%d\t%d\n",
-               p[i].id,p[i].bt,p[i].period,
-               p[i].ct,p[i].wt,p[i].tat);
+               p[i].id,p[i].bt,p[i].period,p[i].ct,p[i].wt,p[i].tat);
     }
 
     return 0;
